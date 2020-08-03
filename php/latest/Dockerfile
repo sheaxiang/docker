@@ -2,6 +2,8 @@ FROM php:latest
 
 MAINTAINER sheaxiang <642290531@qq.com>
 
+RUN sed -i "s@http://deb.debian.org@http://mirrors.aliyun.com@g" /etc/apt/sources.list && rm -Rf /var/lib/apt/lists/* &&  cat /etc/apt/sources.list
+
 # install modules : GD iconv
 RUN apt-get update && apt-get install -y \
         procps \
@@ -14,6 +16,7 @@ RUN apt-get update && apt-get install -y \
         libpcre3-dev \
         libnghttp2-dev \
         libhiredis-dev \
+        libonig-dev \
         curl \
         wget \
         zip \
@@ -22,7 +25,7 @@ RUN apt-get update && apt-get install -y \
         apt autoremove && apt clean
 
 # install php pdo_mysql opcache
-RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ && \
     docker-php-ext-install \
     iconv \
     gd \
@@ -41,8 +44,9 @@ RUN pecl install redis && docker-php-ext-enable redis
 # install composer
 ENV COMPOSER_ALLOW_SUPERUSER 1
 RUN curl -sS https://getcomposer.org/installer | php && \
-    mv composer.phar /usr/local/bin/composer && \
-    composer self-update --clean-backups
+    mv composer.phar /usr/local/bin/composer
+
+RUN composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/
 
 # install swoole
 #TIP: it always get last stable version of swoole coroutine.
