@@ -9,7 +9,7 @@ services:
       - ./conf/php-latest/php.ini:/usr/local/etc/php/php.ini:rw
     restart: always
     links:
-      - mysql
+      - mysql-latest
   nginx-latest:
     image: "nginx"
     ports:
