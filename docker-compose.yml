@@ -6,7 +6,7 @@ services:
       - "8000-8020:8000-8020"
     volumes:
       - ./src:/var/www/html
-      - ./conf/php-latest/php.ini:/usr/local/etc/php/php.ini:rw
+      - ./conf/php/latest/php.ini:/usr/local/etc/php/php.ini:rw
     restart: always
     links:
       - mysql-latest
