@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  mysql:
+    image: "sheaxiang/docker:mysql-latest"
+    ports:
+      - "3305:3306"
+    volumes:
+      - ./data/mysql/db:/var/lib/mysql:rw
+      - ./data/mysql/conf:/etc/mysql/conf.d:rw
+      - ./data/mysql/sock:/var/run/mysqld:rw # remove when windows.
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password_here
+
+  redis:
+    image: "sheaxiang/docker:redis-latest"
+    ports:
+      - "6378:6379"
+    volumes:
+      - ./data/redis/data:/var/lib/redis:rw
+    sysctls:
+        net.core.somaxconn: 65535
+    restart: always
