@@ -11,7 +11,7 @@ services:
     links:
       - mysql-latest
   nginx-latest:
-    image: "nginx"
+    image: "sheaxiang/docker:nginx-latest"
     ports:
       - "80:80"
     privileged: true
