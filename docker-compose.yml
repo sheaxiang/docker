@@ -8,6 +8,8 @@ services:
       - ./src:/var/www/html
       - ./conf/php/latest/php.ini:/usr/local/etc/php/php.ini:rw
     restart: always
+    stdin_open: true
+    tty: true
     links:
       - mysql-latest
   nginx-latest:
@@ -17,9 +19,8 @@ services:
     privileged: true
     volumes:
       - ./src:/usr/share/nginx/html
-      - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:ro
-      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./data/nginx/log/:/var/log/nginx/:rw
+      - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:rw
+      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:rw
     links:
       - php-latest
   mysql-latest:
@@ -29,7 +30,7 @@ services:
     volumes:
       - ./data/mysql/db:/var/lib/mysql:rw
       - ./conf/mysql/mysql/latest:/etc/mysql/conf.d:rw
-      - ./data/mysql/sock:/var/run/mysqld:rw # remove when windows.
+      #- ./data/mysql/sock:/var/run/mysqld:rw # remove when windows.
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root_password_here
