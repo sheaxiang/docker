@@ -28,7 +28,7 @@ services:
       - "3305:3306"
     volumes:
       - ./data/mysql/db:/var/lib/mysql:rw
-      - ./conf/mysql/mysql-latest:/etc/mysql/conf.d:rw
+      - ./conf/mysql/mysql/latest:/etc/mysql/conf.d:rw
       - ./data/mysql/sock:/var/run/mysqld:rw # remove when windows.
     restart: always
     environment:
