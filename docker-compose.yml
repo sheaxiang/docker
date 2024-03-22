@@ -1,21 +1,25 @@
 version: '3.7'
 services:
   php-latest:
-    image: "sheaxiang/docker:php-latest"
+    build: "./php/latest"
     ports:
       - "8000-8020:8000-8020"
+      - "9000:9000"
     volumes:
       - ./src:/var/www/html
       - ./conf/php/latest/php.ini:/usr/local/etc/php/php.ini:rw
     restart: always
     stdin_open: true
     tty: true
+    privileged: true
+    user: "1001:1001"
     links:
       - mysql-latest
   nginx-latest:
     image: "sheaxiang/docker:nginx-latest"
     ports:
       - "80:80"
+      - "443:443"
     privileged: true
     volumes:
       - ./src:/usr/share/nginx/html
